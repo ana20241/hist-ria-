@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Desfile de Moda: Acidente na Passarela. Suas escolhas decidem se o acidente acontece ou e evitado.">
+  <title>Acidente na Passarela</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="cabecalho">
+      <h1>Acidente na Passarela</h1>
+      <p class="subtitulo">Um desfile de moda. Suas escolhas decidem o destino.</p>
+    </header>
+
+    <div class="progresso" aria-hidden="true">
+      <div class="progresso-barra" id="barra-progresso"></div>
+    </div>
+    <p class="progresso-texto" id="texto-progresso"></p>
+
+    <section class="caixa-perguntas" id="caixa-perguntas" aria-live="polite"></section>
+    <section class="caixa-alternativas" id="caixa-alternativas"></section>
+
+    <section class="caixa-resultado" id="caixa-resultado" hidden>
+      <div class="ilustracao-resultado" id="ilustracao-resultado"></div>
+      <p class="texto-resultado" id="texto-resultado"></p>
+    </section>
+  </main>
+
+  <script src="perguntas.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

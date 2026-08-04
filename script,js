@@ -1,0 +1,132 @@
+/**
+ * Logica do quiz - Acidente na Passarela
+ */
+
+const elementos = {
+  perguntas: document.getElementById("caixa-perguntas"),
+  alternativas: document.getElementById("caixa-alternativas"),
+  resultado: document.getElementById("caixa-resultado"),
+  textoResultado: document.getElementById("texto-resultado"),
+  ilustracaoResultado: document.getElementById("ilustracao-resultado"),
+  barraProgresso: document.getElementById("barra-progresso"),
+  textoProgresso: document.getElementById("texto-progresso")
+};
+
+const estado = {
+  indiceAtual: 0,
+  pontosRisco: 0,
+  pontosSeguro: 0,
+  historia: []
+};
+
+function atualizarProgresso() {
+  const total = perguntas.length;
+  const atual = estado.indiceAtual;
+  const porcentagem = Math.min((atual / total) * 100, 100);
+
+  elementos.barraProgresso.style.width = `${porcentagem}%`;
+  elementos.textoProgresso.textContent =
+    atual < total
+      ? `Decisao ${atual + 1} de ${total}`
+      : `Fim do desfile`;
+}
+
+function mostrarPergunta() {
+  if (estado.indiceAtual >= perguntas.length) {
+    mostrarResultado();
+    return;
+  }
+
+  const pergunta = perguntas[estado.indiceAtual];
+
+  elementos.perguntas.textContent = pergunta.enunciado;
+  elementos.alternativas.innerHTML = "";
+  elementos.resultado.hidden = true;
+  elementos.textoResultado.textContent = "";
+  elementos.ilustracaoResultado.innerHTML = "";
+
+  pergunta.alternativas.forEach((alternativa) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "card-alternativa";
+
+    const ilustracao = document.createElement("div");
+    ilustracao.className = "ilustracao-escolha";
+    ilustracao.innerHTML = alternativa.ilustracao;
+
+    const texto = document.createElement("span");
+    texto.className = "texto-escolha";
+    texto.textContent = alternativa.texto;
+
+    card.appendChild(ilustracao);
+    card.appendChild(texto);
+    card.addEventListener("click", () => selecionarResposta(alternativa));
+    elementos.alternativas.appendChild(card);
+  });
+
+  atualizarProgresso();
+}
+
+function selecionarResposta(alternativa) {
+  if (alternativa.caminho === "risco") {
+    estado.pontosRisco++;
+  } else {
+    estado.pontosSeguro++;
+  }
+
+  estado.historia.push(alternativa.afirmacao);
+  estado.indiceAtual++;
+  mostrarPergunta();
+}
+
+function mostrarResultado() {
+  const acidente = estado.pontosRisco > estado.pontosSeguro;
+  const empate = estado.pontosRisco === estado.pontosSeguro;
+
+  elementos.perguntas.textContent = acidente
+    ? "O acidente aconteceu."
+    : empate
+      ? "O desfile terminou no limite."
+      : "O acidente foi evitado.";
+
+  elementos.alternativas.innerHTML = "";
+  elementos.resultado.hidden = false;
+
+  elementos.ilustracaoResultado.innerHTML = acidente
+    ? ilustracoesResultado.acidente
+    : ilustracoesResultado.evitado;
+
+  let narrativa = estado.historia.join(" ");
+
+  if (acidente) {
+    narrativa +=
+      " No momento critico, a modelo perdeu o equilibrio no meio da passarela. O publico se calou. O desfile foi interrompido. Cada escolha de risco somou para esse desfecho.";
+  } else if (empate) {
+    narrativa +=
+      " Houve um tropecao no final, mas a modelo se recuperou. O desfile terminou, porem com susto. Algumas decisoes de risco quase custaram caro.";
+  } else {
+    narrativa +=
+      " A modelo percorreu a passarela com seguranca e confianca. O desfile foi um sucesso. As decisoes cuidadosas evitaram o acidente.";
+  }
+
+  elementos.textoResultado.textContent = narrativa;
+
+  const btnReiniciar = document.createElement("button");
+  btnReiniciar.type = "button";
+  btnReiniciar.className = "botao-reiniciar";
+  btnReiniciar.textContent = "Jogar novamente";
+  btnReiniciar.addEventListener("click", reiniciar);
+  elementos.alternativas.appendChild(btnReiniciar);
+
+  atualizarProgresso();
+}
+
+function reiniciar() {
+  estado.indiceAtual = 0;
+  estado.pontosRisco = 0;
+  estado.pontosSeguro = 0;
+  estado.historia = [];
+  mostrarPergunta();
+}
+
+document.addEventListener("DOMContentLoaded", mostrarPergunta);

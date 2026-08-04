@@ -1,0 +1,229 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+:root {
+  --cor-fundo: linear-gradient(135deg, #0a0a12, #1a1025);
+  --cor-card: #14121f;
+  --cor-botao: #2a2438;
+  --cor-destaque: #e8a0bf;
+  --cor-texto: #f5eef2;
+  --cor-texto-escuro: #14121f;
+  --cor-risco: #ff6b6b;
+  --cor-seguro: #7ec8a3;
+  --cor-borda: rgba(232, 160, 191, 0.25);
+
+  --espaco-xs: 8px;
+  --espaco-sm: 12px;
+  --espaco-md: 20px;
+  --espaco-lg: 30px;
+
+  --raio: 16px;
+  --sombra: 0 0 24px rgba(232, 160, 191, 0.12);
+  --transicao: 0.25s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--espaco-md);
+  line-height: 1.5;
+}
+
+.container {
+  background-color: var(--cor-card);
+  width: 100%;
+  max-width: 640px;
+  padding: var(--espaco-lg) var(--espaco-md);
+  border-radius: 24px;
+  border: 2px solid var(--cor-borda);
+  box-shadow: var(--sombra);
+  text-align: center;
+}
+
+.cabecalho {
+  margin-bottom: var(--espaco-md);
+}
+
+.cabecalho h1 {
+  color: var(--cor-destaque);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.subtitulo {
+  margin-top: var(--espaco-xs);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.progresso {
+  width: 100%;
+  height: 6px;
+  background-color: var(--cor-botao);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: var(--espaco-xs);
+}
+
+.progresso-barra {
+  height: 100%;
+  width: 0%;
+  background: var(--cor-destaque);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+.progresso-texto {
+  font-size: 0.8rem;
+  opacity: 0.65;
+  margin-bottom: var(--espaco-md);
+}
+
+.caixa-perguntas {
+  font-size: 1.05rem;
+  font-weight: 500;
+  min-height: 70px;
+  margin-bottom: var(--espaco-md);
+  line-height: 1.55;
+}
+
+.caixa-alternativas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-sm);
+  align-items: stretch;
+}
+
+.card-alternativa {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-md);
+  width: 100%;
+  padding: var(--espaco-sm) var(--espaco-md);
+  background-color: var(--cor-botao);
+  color: var(--cor-texto);
+  border: 2px solid transparent;
+  border-radius: var(--raio);
+  cursor: pointer;
+  transition: all var(--transicao);
+  text-align: left;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.card-alternativa:hover {
+  border-color: var(--cor-destaque);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(232, 160, 191, 0.2);
+}
+
+.card-alternativa:active {
+  transform: scale(0.98);
+}
+
+.ilustracao-escolha {
+  flex-shrink: 0;
+  width: 90px;
+  height: 70px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ilustracao-escolha svg {
+  width: 100%;
+  height: 100%;
+}
+
+.texto-escolha {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.caixa-resultado {
+  margin-top: var(--espaco-md);
+  text-align: left;
+}
+
+.ilustracao-resultado {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto var(--espaco-md);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: var(--espaco-sm);
+}
+
+.ilustracao-resultado svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.texto-resultado {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.botao-reiniciar {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: var(--espaco-md) auto 0;
+  padding: 14px 22px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: transparent;
+  border: 2px solid var(--cor-destaque);
+  border-radius: var(--raio);
+  color: var(--cor-destaque);
+  cursor: pointer;
+  transition: all var(--transicao);
+}
+
+.botao-reiniciar:hover {
+  background-color: var(--cor-destaque);
+  color: var(--cor-texto-escuro);
+  transform: scale(1.03);
+}
+
+@media (max-width: 480px) {
+  .cabecalho h1 {
+    font-size: 1.3rem;
+  }
+
+  .caixa-perguntas {
+    font-size: 0.95rem;
+  }
+
+  .card-alternativa {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--espaco-sm);
+  }
+
+  .ilustracao-escolha {
+    width: 100%;
+    height: 80px;
+  }
+
+  .texto-escolha {
+    font-size: 0.9rem;
+  }
+}
