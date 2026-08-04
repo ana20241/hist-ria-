@@ -3,32 +3,434 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Desfile de Moda: Acidente na Passarela. Suas escolhas decidem se o acidente acontece ou e evitado.">
   <title>Acidente na Passarela</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+    :root {
+      --fundo: linear-gradient(135deg, #0a0a12, #1a1025);
+      --card: #14121f;
+      --botao: #2a2438;
+      --destaque: #e8a0bf;
+      --texto: #f5eef2;
+      --risco: #ff6b6b;
+      --seguro: #7ec8a3;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: var(--fundo);
+      color: var(--texto);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      line-height: 1.5;
+    }
+
+    .container {
+      background: var(--card);
+      width: 100%;
+      max-width: 640px;
+      padding: 30px 20px;
+      border-radius: 24px;
+      border: 2px solid rgba(232, 160, 191, 0.25);
+      box-shadow: 0 0 24px rgba(232, 160, 191, 0.12);
+      text-align: center;
+    }
+
+    h1 {
+      color: var(--destaque);
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .subtitulo {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+
+    .progresso {
+      width: 100%;
+      height: 6px;
+      background: var(--botao);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .progresso-barra {
+      height: 100%;
+      width: 0%;
+      background: var(--destaque);
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
+    .progresso-texto {
+      font-size: 0.8rem;
+      opacity: 0.65;
+      margin-bottom: 20px;
+    }
+
+    #caixa-perguntas {
+      font-size: 1.05rem;
+      font-weight: 500;
+      min-height: 60px;
+      margin-bottom: 20px;
+      line-height: 1.55;
+    }
+
+    #caixa-alternativas {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card-alternativa {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--botao);
+      color: var(--texto);
+      border: 2px solid transparent;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: left;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .card-alternativa:hover {
+      border-color: var(--destaque);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(232, 160, 191, 0.2);
+    }
+
+    .ilustracao-escolha {
+      flex-shrink: 0;
+      width: 100px;
+      height: 75px;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .ilustracao-escolha svg {
+      width: 100px;
+      height: 75px;
+      display: block;
+    }
+
+    .texto-escolha {
+      flex: 1;
+      line-height: 1.4;
+    }
+
+    #caixa-resultado {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .ilustracao-resultado {
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .ilustracao-resultado svg {
+      width: 200px;
+      height: 120px;
+      display: inline-block;
+    }
+
+    #texto-resultado {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .botao-reiniciar {
+      display: block;
+      width: 100%;
+      max-width: 280px;
+      margin: 20px auto 0;
+      padding: 14px 22px;
+      font-family: inherit;
+      font-size: 1rem;
+      background: transparent;
+      border: 2px solid var(--destaque);
+      border-radius: 16px;
+      color: var(--destaque);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .botao-reiniciar:hover {
+      background: var(--destaque);
+      color: #14121f;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.3rem; }
+      .card-alternativa {
+        flex-direction: column;
+        text-align: center;
+      }
+      .ilustracao-escolha {
+        width: 100%;
+        height: 80px;
+      }
+      .ilustracao-escolha svg {
+        width: 120px;
+        height: 80px;
+      }
+    }
+  </style>
 </head>
 <body>
   <main class="container">
-    <header class="cabecalho">
+    <header>
       <h1>Acidente na Passarela</h1>
       <p class="subtitulo">Um desfile de moda. Suas escolhas decidem o destino.</p>
     </header>
 
-    <div class="progresso" aria-hidden="true">
+    <div class="progresso">
       <div class="progresso-barra" id="barra-progresso"></div>
     </div>
     <p class="progresso-texto" id="texto-progresso"></p>
 
-    <section class="caixa-perguntas" id="caixa-perguntas" aria-live="polite"></section>
-    <section class="caixa-alternativas" id="caixa-alternativas"></section>
+    <section id="caixa-perguntas"></section>
+    <section id="caixa-alternativas"></section>
 
-    <section class="caixa-resultado" id="caixa-resultado" hidden>
+    <section id="caixa-resultado" style="display: none;">
       <div class="ilustracao-resultado" id="ilustracao-resultado"></div>
-      <p class="texto-resultado" id="texto-resultado"></p>
+      <p id="texto-resultado"></p>
     </section>
   </main>
 
-  <script src="perguntas.js"></script>
-  <script src="script.js"></script>
+  <script>
+    const perguntas = [
+      {
+        enunciado: "Voce e o responsavel tecnico do desfile. Minutos antes da abertura, o chao da passarela parece um pouco escorregadio. O que faz?",
+        alternativas: [
+          {
+            texto: "Ignora. O show precisa comecar no horario.",
+            caminho: "risco",
+            afirmacao: "O chao escorregadio nao foi verificado.",
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="75" viewBox="0 0 120 90"><rect x="10" y="60" width="100" height="8" fill="#4a4a6a" rx="2"/><ellipse cx="60" cy="64" rx="25" ry="3" fill="#e8a0bf" opacity="0.5"/><path d="M40 50 L50 60 L45 60 L55 70" stroke="#ff6b6b" stroke-width="2" fill="none"/><circle cx="55" cy="72" r="3" fill="#ff6b6b"/><text x="60" y="28" text-anchor="middle" fill="#f5eef2" font-size="11" font-family="sans-serif">chao molhado</text></svg>'
+          },
+          {
+            texto: "Pede para a equipe secar e testar a superficie.",
+            caminho: "seguro",
+            afirmacao: "A passarela foi secada e testada antes do inicio.",
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="75" viewBox="0 0 120 90"><rect x="10" y="60" width="100" height="8" fill="#4a4a6a" rx="2"/><rect x="30" y="38" width="14" height="22" fill="#2a2438" rx="2"/><path d="M30 45 H52" stroke="#7ec8a3" stroke-width="2"/><circle cx="72" cy="50" r="9" fill="none" stroke="#7ec8a3" stroke-width="2"/><path d="M67 50 L71 54 L78 45" stroke="#7ec8a3" stroke-width="2" fill="none"/><text x="60" y="24" text-anchor="middle" fill="#f5eef2" font-size="11" font-family="sans-serif">chao seco</text></svg>'
+          }
+        ]
+      },
+      {
+        enunciado: "A modelo principal usa um salto alto muito fino. O estilista insiste no look. Como reage?",
+        alternativas: [
+          {
+            texto: "Aceita o salto. A estetica vem primeiro.",
+            caminho: "risco",
+            afirmacao: "O salto instavel foi mantido no look final.",
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="75" viewBox="0 0 120 90"><path d="M50 18 L55 52 L72 52 L62 72 L48 72 L45 52 Z" fill="#2a2438" stroke="#f5eef2" stroke-width="1.5"/><line x1="62" y1="72" x2="62" y2="84" stroke="#ff6b6b" stroke-width="3"/><circle cx="62" cy="85" r="3" fill="#ff6b6b"/><text x="60" y="14" text-anchor="middle" fill="#f5eef2" font-size="11" font-family="sans-serif">salto fino</text></svg>'
+          },
+          {
+            texto: "Troca por um salto mais estavel, sem perder o estilo.",
+            caminho: "seguro",
+            afirmacao: "O salto foi trocado por um modelo mais seguro.",
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="75" viewBox="0 0 120 90"><path d="M50 18 L55 52 L72 52 L66 72 L46 72 L45 52 Z" fill="#2a2438" stroke="#f5eef2" stroke-width="1.5"/><rect x="46" y="72" width="20" height="7" fill="#7ec8a3" rx="2"/><text x="60" y="14" text-anchor="middle" fill="#f5eef2" font-size="11" font-family="sans-serif">salto estavel</text></svg>'
+          }
+        ]
+      },
+      {
+        enunciado: "Os holofotes estao muito fortes e geram reflexo no chao da passarela. O que decide?",
+        alternativas: [
+          {
+            texto: "Mantem os holofotes. O visual precisa ser impactante.",
+            caminho: "risco",
+            afirmacao: "O reflexo dos holofotes prejudicou a visao na passarela.",
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="75" viewBox="0 0 120 90"><circle cx="60" cy="22" r="12" fill="#ffd93d"/><line x1="60" y1="34" x2="40" y2="68" stroke="#ffd93d" stroke-width="2" opacity="0.7"/><line x1="60" y1="34" x2="60" y2="68" stroke="#ffd93d" stroke-width="2" opacity="0.7"/><line x1="60" y1="34" x2="80" y2="68" stroke="#ffd93d" stroke-width="2" opacity="0.7"/><rect x="20" y="68" width="80" height="6" fill="#4a4a6a"/><ellipse cx="60" cy="71" rx="18" ry="4" fill="#ffd93d" opacity="0.35"/><text x="60" y="12" text-anchor="middle" fill="#f5eef2" font-size="10" font-family="sans-serif">reflexo forte</text></svg>'
+          },
+          {
+            texto: "Ajusta a inclinacao e a intensidade dos holofotes.",
+            caminho: "seguro",
+            afirmacao: "Os holofotes foram ajustados para evitar reflexos perigosos.",
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="75" viewBox="0 0 120 90"><circle cx="60" cy="22" r="12" fill="#9090a0"/><line x1="60" y1="34" x2="48" y2="55" stroke="#9090a0" stroke-width="2" opacity="0.5"/><line x1="60" y1="34" x2="72" y2="55" stroke="#9090a0" stroke-width="2" opacity="0.5"/><rect x="20" y="68" width="80" height="6" fill="#4a4a6a"/><path d="M44 48 L54 54 L49 54 L49 60" stroke="#7ec8a3" stroke-width="2" fill="none"/><text x="60" y="12" text-anchor="middle" fill="#f5eef2" font-size="10" font-family="sans-serif">luz ajustada</text></svg>'
+          }
+        ]
+      },
+      {
+        enunciado: "Uma peca do figurino tem barra longa demais e pode enganchar no pe. O que faz?",
+        alternativas: [
+          {
+            texto: "Deixa como esta. O movimento do tecido e o destaque do look.",
+            caminho: "risco",
+            afirmacao: "A barra longa do figurino nao foi ajustada.",
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="75" viewBox="0 0 120 90"><path d="M55 12 L50 38 L38 78 L50 78 L55 48 L60 78 L72 78 L65 38 Z" fill="#2a2438" stroke="#f5eef2" stroke-width="1.5"/><path d="M38 78 Q44 86 50 78" stroke="#ff6b6b" stroke-width="2" fill="none"/><circle cx="40" cy="82" r="3" fill="#ff6b6b"/><text x="60" y="10" text-anchor="middle" fill="#f5eef2" font-size="10" font-family="sans-serif">barra longa</text></svg>'
+          },
+          {
+            texto: "Ajusta a barra ou prende o excesso de tecido.",
+            caminho: "seguro",
+            afirmacao: "A barra do figurino foi ajustada para nao enganchar.",
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="75" viewBox="0 0 120 90"><path d="M55 12 L50 38 L46 72 L55 72 L55 48 L55 72 L64 72 L64 38 Z" fill="#2a2438" stroke="#f5eef2" stroke-width="1.5"/><line x1="46" y1="72" x2="64" y2="72" stroke="#7ec8a3" stroke-width="3"/><circle cx="50" cy="72" r="3" fill="#7ec8a3"/><circle cx="60" cy="72" r="3" fill="#7ec8a3"/><text x="60" y="10" text-anchor="middle" fill="#f5eef2" font-size="10" font-family="sans-serif">barra ajustada</text></svg>'
+          }
+        ]
+      },
+      {
+        enunciado: "Ultimo ensaio: a modelo parece insegura no ultimo trecho da passarela. Falta um minuto para o inicio. O que faz?",
+        alternativas: [
+          {
+            texto: "Manda ela entrar. Nao ha tempo para treinar de novo.",
+            caminho: "risco",
+            afirmacao: "A modelo entrou sem confianca no ultimo trecho.",
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="75" viewBox="0 0 120 90"><circle cx="60" cy="20" r="11" fill="#2a2438" stroke="#f5eef2" stroke-width="1.5"/><path d="M48 34 Q60 48 48 68" fill="none" stroke="#f5eef2" stroke-width="2.5"/><path d="M72 34 Q60 48 72 68" fill="none" stroke="#f5eef2" stroke-width="2.5"/><circle cx="55" cy="18" r="2" fill="#f5eef2"/><circle cx="65" cy="18" r="2" fill="#f5eef2"/><path d="M54 24 Q60 21 66 24" stroke="#ff6b6b" stroke-width="1.5" fill="none"/><text x="60" y="84" text-anchor="middle" fill="#ff6b6b" font-size="11" font-family="sans-serif">insegura</text></svg>'
+          },
+          {
+            texto: "Faz um ensaio rapido do trecho critico e reforca a marcacao no chao.",
+            caminho: "seguro",
+            afirmacao: "Houve um ensaio rapido e marcacao no chao para dar confianca.",
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="75" viewBox="0 0 120 90"><circle cx="60" cy="20" r="11" fill="#2a2438" stroke="#f5eef2" stroke-width="1.5"/><line x1="50" y1="34" x2="50" y2="68" stroke="#f5eef2" stroke-width="2.5"/><line x1="70" y1="34" x2="70" y2="68" stroke="#f5eef2" stroke-width="2.5"/><circle cx="55" cy="18" r="2" fill="#f5eef2"/><circle cx="65" cy="18" r="2" fill="#f5eef2"/><path d="M54 16 Q60 22 66 16" stroke="#7ec8a3" stroke-width="1.5" fill="none"/><line x1="38" y1="74" x2="82" y2="74" stroke="#7ec8a3" stroke-width="2" stroke-dasharray="5 3"/><text x="60" y="88" text-anchor="middle" fill="#7ec8a3" font-size="11" font-family="sans-serif">preparada</text></svg>'
+          }
+        ]
+      }
+    ];
+
+    const svgAcidente = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="120" viewBox="0 0 200 120"><rect x="20" y="90" width="160" height="10" fill="#4a4a6a" rx="2"/><circle cx="100" cy="40" r="12" fill="#2a2438" stroke="#f5eef2" stroke-width="1.5"/><path d="M90 55 L70 85" stroke="#f5eef2" stroke-width="3" stroke-linecap="round"/><path d="M110 55 L130 75" stroke="#f5eef2" stroke-width="3" stroke-linecap="round"/><path d="M100 52 L95 80" stroke="#f5eef2" stroke-width="3" stroke-linecap="round"/><path d="M100 52 L115 85" stroke="#f5eef2" stroke-width="3" stroke-linecap="round"/><path d="M155 30 L165 50 L145 50 Z" fill="#ff6b6b"/><text x="155" y="46" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold" font-family="sans-serif">!</text><text x="100" y="112" text-anchor="middle" fill="#ff6b6b" font-size="12" font-family="sans-serif">acidente na passarela</text></svg>';
+
+    const svgEvitado = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="120" viewBox="0 0 200 120"><rect x="20" y="90" width="160" height="10" fill="#4a4a6a" rx="2"/><circle cx="100" cy="35" r="12" fill="#2a2438" stroke="#f5eef2" stroke-width="1.5"/><line x1="100" y1="47" x2="100" y2="72" stroke="#f5eef2" stroke-width="3" stroke-linecap="round"/><line x1="100" y1="55" x2="80" y2="65" stroke="#f5eef2" stroke-width="3" stroke-linecap="round"/><line x1="100" y1="55" x2="120" y2="65" stroke="#f5eef2" stroke-width="3" stroke-linecap="round"/><line x1="100" y1="72" x2="88" y2="90" stroke="#f5eef2" stroke-width="3" stroke-linecap="round"/><line x1="100" y1="72" x2="112" y2="90" stroke="#f5eef2" stroke-width="3" stroke-linecap="round"/><circle cx="155" cy="40" r="14" fill="none" stroke="#7ec8a3" stroke-width="2"/><path d="M148 40 L153 45 L163 33" stroke="#7ec8a3" stroke-width="2.5" fill="none"/><text x="100" y="112" text-anchor="middle" fill="#7ec8a3" font-size="12" font-family="sans-serif">desfile seguro</text></svg>';
+
+    var indiceAtual = 0;
+    var pontosRisco = 0;
+    var pontosSeguro = 0;
+    var historia = [];
+
+    function atualizarProgresso() {
+      var total = perguntas.length;
+      var pct = Math.min((indiceAtual / total) * 100, 100);
+      document.getElementById("barra-progresso").style.width = pct + "%";
+      document.getElementById("texto-progresso").textContent =
+        indiceAtual < total
+          ? "Decisao " + (indiceAtual + 1) + " de " + total
+          : "Fim do desfile";
+    }
+
+    function mostrarPergunta() {
+      if (indiceAtual >= perguntas.length) {
+        mostrarResultado();
+        return;
+      }
+
+      var pergunta = perguntas[indiceAtual];
+      var caixaPerguntas = document.getElementById("caixa-perguntas");
+      var caixaAlt = document.getElementById("caixa-alternativas");
+      var caixaRes = document.getElementById("caixa-resultado");
+
+      caixaPerguntas.textContent = pergunta.enunciado;
+      caixaAlt.innerHTML = "";
+      caixaRes.style.display = "none";
+
+      for (var i = 0; i < pergunta.alternativas.length; i++) {
+        (function (alt) {
+          var card = document.createElement("button");
+          card.type = "button";
+          card.className = "card-alternativa";
+
+          var divSvg = document.createElement("div");
+          divSvg.className = "ilustracao-escolha";
+          divSvg.innerHTML = alt.svg;
+
+          var span = document.createElement("span");
+          span.className = "texto-escolha";
+          span.textContent = alt.texto;
+
+          card.appendChild(divSvg);
+          card.appendChild(span);
+          card.onclick = function () {
+            selecionarResposta(alt);
+          };
+          caixaAlt.appendChild(card);
+        })(pergunta.alternativas[i]);
+      }
+
+      atualizarProgresso();
+    }
+
+    function selecionarResposta(alt) {
+      if (alt.caminho === "risco") {
+        pontosRisco++;
+      } else {
+        pontosSeguro++;
+      }
+      historia.push(alt.afirmacao);
+      indiceAtual++;
+      mostrarPergunta();
+    }
+
+    function mostrarResultado() {
+      var acidente = pontosRisco > pontosSeguro;
+      var empate = pontosRisco === pontosSeguro;
+
+      var titulo = acidente
+        ? "O acidente aconteceu."
+        : empate
+          ? "O desfile terminou no limite."
+          : "O acidente foi evitado.";
+
+      document.getElementById("caixa-perguntas").textContent = titulo;
+      document.getElementById("caixa-alternativas").innerHTML = "";
+
+      var caixaRes = document.getElementById("caixa-resultado");
+      caixaRes.style.display = "block";
+
+      document.getElementById("ilustracao-resultado").innerHTML = acidente
+        ? svgAcidente
+        : svgEvitado;
+
+      var narrativa = historia.join(" ");
+      if (acidente) {
+        narrativa += " No momento critico, a modelo perdeu o equilibrio no meio da passarela. O publico se calou. O desfile foi interrompido. Cada escolha de risco somou para esse desfecho.";
+      } else if (empate) {
+        narrativa += " Houve um tropecao no final, mas a modelo se recuperou. O desfile terminou, porem com susto. Algumas decisoes de risco quase custaram caro.";
+      } else {
+        narrativa += " A modelo percorreu a passarela com seguranca e confianca. O desfile foi um sucesso. As decisoes cuidadosas evitaram o acidente.";
+      }
+      document.getElementById("texto-resultado").textContent = narrativa;
+
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "botao-reiniciar";
+      btn.textContent = "Jogar novamente";
+      btn.onclick = reiniciar;
+      document.getElementById("caixa-alternativas").appendChild(btn);
+
+      atualizarProgresso();
+    }
+
+    function reiniciar() {
+      indiceAtual = 0;
+      pontosRisco = 0;
+      pontosSeguro = 0;
+      historia = [];
+      mostrarPergunta();
+    }
+
+    mostrarPergunta();
+  </script>
 </body>
 </html>
